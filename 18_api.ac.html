@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        #photos-container{
+            display: flex;
+            flex-wrap: wrap;
+            margin-top:200px ;
+            margin-left: 11%;
+            /* padding-bottom: 10px; */
+            width: 80%;
+            
+    
+        }
+        #searchbar{
+            display: flex;
+            flex-wrap: wrap;
+            /* margin: 20px; */
+            margin-top: -6%;
+            margin-left: 10%;
+            width: 79%;
+            height: 100px;
+            background-color:rgb(196, 192, 192);
+            position: fixed;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        #photos-container img{
+            margin: 20px;
+            width: 400px;
+            height: 400px;
+        }
+        #search{
+            font-size: 21px;
+            text-decoration-color: black;
+            text-align: center;
+            margin-left: 15vh;
+            width: 40%;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            
+
+        }
+        #btn{
+            margin: 20px;
+            height: 50px;
+            width: 130px;
+            background-color: rgb(37, 139, 255);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="searchbar">
+        <h1 style="color: rgb(255, 0, 0);">Welcome in Farzi Unsplash</h1>
+        <input type="search" placeholder="GOOGLE" id="search" >
+        <button  id="btn" onclick="searchPhoto()">Go now</button>
+
+        
+    </div>
+
+    <div id="photos-container">
+
+    </div>
+    <script>
+
+let accessKey='0F8Mz7vI8l-dbJFGPPAFqICyP5m7ugbbd84xbreJ2hQ';
+    function searchPhoto(){
+
+        let searchItem=document.getElementById('search').value;
+
+        fetch(`https://api.unsplash.com/search/photos?query=${searchItem}&client_id=${accessKey}&per_page=15`)
+        .then((res)=>{
+            return res.json();
+        })
+        .then((data)=>{
+            console.log(data.results);
+             displayImage(data.results)
+        })
+        .catch((err)=>{
+             console.log(err)
+        })
+        
+
+        function displayImage(photos){
+            document.getElementById('photos-container').innerHTML=''
+            photos.map((image)=>{
+                 let img=document.createElement('img')
+                 img.src=image.urls.small;
+                 document.getElementById('photos-container').appendChild(img);
+            })
+        }
+
+    }
+
+    </script>
+</body>
+</html>
